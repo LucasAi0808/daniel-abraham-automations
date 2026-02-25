@@ -1,0 +1,11 @@
+{
+  "name": "Survey Data Processor - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "surveying", "data-processing"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: data validation, coordinate transformation, visualization, CAD export, and automated reporting."
+  }
+}

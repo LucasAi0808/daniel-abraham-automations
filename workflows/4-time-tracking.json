@@ -1,0 +1,11 @@
+{
+  "name": "Time Tracking - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "time-tracking", "billing"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: calendar integration, AI suggestions, mobile app, expense management, and Fortnox export."
+  }
+}

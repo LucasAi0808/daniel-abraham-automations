@@ -1,0 +1,121 @@
+{
+  "name": "Quote & Invoice Automation - MDA Consulting",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "quote-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook - Quote Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "placeholder-webhook-id"
+    },
+    {
+      "parameters": {
+        "mode": "jsonInput",
+        "jsonInput": "={{ $json.body }}"
+      },
+      "name": "Parse Request Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Du är en professionell offertskapare för MDA Consulting AB, ett byggkonsultföretag. Skapa professionella offerter för anläggningsarbeten, betongkonstruktioner och projektledning."
+            },
+            {
+              "role": "user",
+              "content": "Skapa en offert för:\nKund: {{ $json.customer_name }}\nProjekt: {{ $json.project_name }}\nTjänster: {{ $json.services }}\nBudget: {{ $json.budget }} SEK\n\nInkludera: projektomsättning, tillvägagångssätt, tidsplan, och pris."
+            }
+          ]
+        }
+      },
+      "name": "Generate Quote with AI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "pdfOptions": {
+          "header": "MDA Consulting AB - Offert",
+          "footer": "Sida {{ currentPage }} av {{ totalPages }}"
+        },
+        "htmlContent": "=<h1>Offert</h1>\n<p><strong>Kund:</strong> {{ $node['Parse Request Data'].json.customer_name }}</p>\n<p><strong>Datum:</strong> {{ $now.format('YYYY-MM-DD') }}</p>\n<hr>\n{{ $node['Generate Quote with AI'].json.choices[0].message.content }}"
+      },
+      "name": "Create PDF Quote",
+      "type": "n8n-nodes-base.htmlToPdf",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@mda-consulting.se",
+        "toEmail": "={{ $node['Parse Request Data'].json.customer_email }}",
+        "subject": "Offert från MDA Consulting AB - {{ $node['Parse Request Data'].json.project_name }}",
+        "text": "Hej,\n\nTack för din förfrågan! Bifogat finner du vår offert för {{ $node['Parse Request Data'].json.project_name }}.\n\nVänliga hälsningar,\nMDA Consulting AB",
+        "attachments": "={{ $node['Create PDF Quote'].json.data }}"
+      },
+      "name": "Send Quote Email",
+      "type": "n8n-nodes-base.sendEmail",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "credentials": {
+        "smtp": {
+          "id": "2",
+          "name": "SMTP Email"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Offert skickad!', quote_id: $node['Parse Request Data'].json.quote_id } }}"
+      },
+      "name": "Respond Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Quote Request": {
+      "main": [[{ "node": "Parse Request Data", "type": "main", "index": 0 }]]
+    },
+    "Parse Request Data": {
+      "main": [[{ "node": "Generate Quote with AI", "type": "main", "index": 0 }]]
+    },
+    "Generate Quote with AI": {
+      "main": [[{ "node": "Create PDF Quote", "type": "main", "index": 0 }]]
+    },
+    "Create PDF Quote": {
+      "main": [[{ "node": "Send Quote Email", "type": "main", "index": 0 }]]
+    },
+    "Send Quote Email": {
+      "main": [[{ "node": "Respond Success", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "automation", "quotes"],
+  "meta": {
+    "instanceId": "placeholder"
+  }
+}

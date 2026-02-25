@@ -1,0 +1,11 @@
+{
+  "name": "Document Manager - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "documents", "ocr"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: OCR scanning, AI categorization, metadata extraction, and searchable archive."
+  }
+}

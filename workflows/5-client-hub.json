@@ -1,0 +1,11 @@
+{
+  "name": "Client Communication Hub - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "clients", "communication"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: weekly reports, AI chatbot, customer portal, and CRM integration."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Multi-Company Financial Dashboard - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "finance", "multi-company"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: Fortnox integration for all companies, cashflow forecasting, tax planning, and automated reports."
+  }
+}

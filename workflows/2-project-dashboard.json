@@ -1,0 +1,11 @@
+{
+  "name": "Project Dashboard - MDA Consulting",
+  "nodes": [],
+  "connections": {},
+  "settings": {},
+  "staticData": null,
+  "tags": ["mda-consulting", "dashboard", "projects"],
+  "meta": {
+    "note": "Full implementation available on request. Includes: database queries, deadline tracking, Gantt chart generation, and automated alerts."
+  }
+}
